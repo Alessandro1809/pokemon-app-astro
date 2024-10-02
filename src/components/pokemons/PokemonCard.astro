@@ -15,14 +15,16 @@ const urlimg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites
 
 <a href={`/Pokemons/${name}`} 
 class:list={[//uso de class:list para mostrado de clases de manera condicional
-    'flex flex-col items-center justify-center p-2 rounded-md bg-gradient-to-tr from-slate-900/50 via-neutral-500/60 to-slate-400/40 mx-2',
+    'flex flex-col items-center justify-center p-2 rounded-md mx-2',
     {
     "bg-gradient-to-tr from-slate-900/50 via-red-500/60 to-slate-400/40" : isBig,
     "bg-gradient-to-tr from-slate-900/50 via-blue-500/45 to-slate-400/40" : !isBig
     }
 ]}>
     
-    <img class:list={
+    <img
+    transition:name=`${name}-image`
+    class:list={
     [ 
     {
         "w-96 h-auto" : isBig,
