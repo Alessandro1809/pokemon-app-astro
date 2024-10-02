@@ -1,19 +1,55 @@
 ---
 import type { GetStaticPaths } from "astro";
+import type { PokemonList } from "../../interfaces/pokemon-list";
 import MainLayout from "../../layouts/MainLayout.astro";
+import  PokemonCard from "../../components/pokemons/PokemonCard.astro";
 
-export const getStaticPaths = (() => {
+
+export const getStaticPaths = (async() => {
+
+    const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+    const {results} = await response.json() as PokemonList;
     
-    return [{params:{name:"bulbasaur"}},
-            {params:{name:"charmeleon"}},
-            {params:{name:"ivysaur"}}
-    ];
+    //retorno de rutas estaticas  de manera dinamica
+    return results.map(({name,url}) => ({//desestructurar  los datos que se necesitan para evitas sintaxis confusa
+        params: {
+            name//esto podria ser name:name o name: pokemon.name
+        },
+        props: {
+            url//esto podria ser ulr:url o url: pokemon.url
+        }
+    }))
 }) satisfies GetStaticPaths;
 
 
 const {name} = Astro.params;
+const {url} = Astro.props;
+
+//Construir las rutas
+const id = url.split("/").at(-2);
+const urlimg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`
 ---
 
 <MainLayout title="Pokemon">
-    <h1>{name}</h1>
+
+    <section class="pt-10 mx-10 flex flex-col justify-center items-center">
+        <div class="justify-center items-center">
+            <a class="text-slate-50 text-2xl font-medium hover:underline" href="/">Regresar</a>
+            <h1 class="text-5xl text-center font-bold py-12 bg-gradient-to-r from-neutral-200 via-red-300 to-orange-600 text-transparent bg-clip-text capitalize">{name}</h1>
+            <PokemonCard 
+            name={name} 
+            url={url}
+            isBig
+            />
+            <div class="flex  justify-center">
+                <audio controls class="mt-5" >
+                    <source src={auidioSource} type="audio/ogg">
+                    Tu navegador no soporta el elemento <code>audio</code>.
+                </audio>
+            </div>
+            
+
+        </div>
+    </section>
 </MainLayout>
