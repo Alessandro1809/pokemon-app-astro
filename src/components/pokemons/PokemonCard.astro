@@ -1,0 +1,41 @@
+---
+interface Props {
+    name: string;
+    url: string;
+    isBig?: boolean;
+}
+
+const { name, url, isBig=false } = Astro.props;
+
+//construir el string de la url
+const id = url.split("/").at(-2);
+const urlimg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+---
+
+<a href={`/Pokemons/${name}`}  
+class:list={[//uso de class:list para mostrado de clases de manera condicional
+    'flex flex-col items-center justify-center p-2 rounded-md mx-2',
+    {
+    "bg-gradient-to-tr from-slate-900/50 via-red-500/60 to-slate-400/40" : isBig,
+    "bg-gradient-to-tr from-slate-900/50 via-blue-500/45 to-slate-400/40" : !isBig
+    }
+]}>
+    
+    <img
+    transition:name=`${name}-image`
+    class:list={
+    [ 
+    {
+        "w-96 h-auto" : isBig,
+        "w-64 h-auto" : !isBig
+    }
+
+    ]} src={urlimg} alt="">
+    <span class:list={[
+        "capitalize text-slate-50 font-medium",
+        {
+            "text-4xl" : isBig,
+            "text-xl" : !isBig
+        }
+    ]}>#{id} - {name}</span>
+</a>
