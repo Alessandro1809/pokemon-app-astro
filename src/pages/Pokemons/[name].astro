@@ -3,6 +3,7 @@ import type { GetStaticPaths } from "astro";
 import type { PokemonList } from "../../interfaces/pokemon-list";
 import MainLayout from "../../layouts/MainLayout.astro";
 import  PokemonCard from "../../components/pokemons/PokemonCard.astro";
+import Title from "@/components/shared/Title.astro";
 
 
 export const getStaticPaths = (async() => {
@@ -36,8 +37,8 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
 
     <section class="pt-10 mx-10 flex flex-col justify-center items-center">
         <div class="justify-center items-center">
-            <a class="text-slate-50 text-2xl font-medium hover:underline" href="/">Regresar</a>
-            <h1 class="text-5xl text-center font-bold py-12 bg-gradient-to-r from-neutral-200 via-red-300 to-orange-600 text-transparent bg-clip-text capitalize">{name}</h1>
+            <button onclick="history.back()" class="text-slate-50 text-2xl font-medium bg-gradient-to-r from-neutral-200/10 via-red-300/40 to-orange-600/30 rounded-md px-4 py-2">Regresar</button>
+            <Title>{name}</Title>
             <PokemonCard 
             name={name} 
             url={url}

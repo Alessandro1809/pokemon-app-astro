@@ -1,11 +1,12 @@
 ---
-import type { GetStaticPaths } from "astro";
+import type {GetStaticPaths} from "astro";
 
 
 //codigo server side only
 import MainLayout from "@/layouts/MainLayout.astro";
 import PokemonCard from "@/components/pokemons/PokemonCard.astro";
 import type {PokemonList, PokemonInfo} from "../../interfaces/pokemon-list";
+import Title from "@/components/shared/Title.astro";
 
 
 export const getStaticPaths = (async({paginate}) => {
@@ -21,7 +22,7 @@ const {page} = Astro.props;
 ---
 
 	<MainLayout title={title}/>
-	<h1 class="text-5xl text-center font-bold py-12 bg-gradient-to-r from-neutral-200 via-red-300 to-orange-600 text-transparent bg-clip-text">Listado de Pokemons</h1>
+	<Title>Explora los 151 pokemones</Title>
 	<section
 	class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 container mx-auto"
 	aria-label="Listado de pokemones">
