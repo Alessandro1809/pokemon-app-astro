@@ -1,0 +1,63 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "@/layouts/MainLayout.astro"
+import type { PokemonList } from "../../interfaces/pokemon-list";
+import PokemonCard from "@components/pokemons/PokemonCard.astro";
+
+
+export const getStaticPaths = (async() => {
+
+const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+const {results} = await response.json() as PokemonList;
+
+//retorno de rutas estaticas  de manera dinamica
+return results.map(({name,url}):any => {//desestructurar  los datos que se necesitan para evitas sintaxis confusa
+    const id= url.split("/").at(-2)
+    
+   return {
+    params: {
+        id
+    },
+    props: {
+        url,
+        name
+        
+    }
+   }
+})
+
+}) satisfies GetStaticPaths;
+
+
+const {id} = Astro.params;
+
+const {url,name} = Astro.props;
+
+
+const urlimg = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`
+
+---
+<MainLayout title="Pokemon">
+
+    <section class="pt-10 mx-10 flex flex-col justify-center items-center">
+        <div class="justify-center items-center">
+            <a class="text-slate-50 text-2xl font-medium hover:underline" href="/">Regresar</a>
+            <h1 class="text-5xl text-center font-bold py-12 bg-gradient-to-r from-neutral-200 via-red-300 to-orange-600 text-transparent bg-clip-text capitalize">{name}</h1>
+            <PokemonCard 
+            name={name} 
+            url={url}
+            isBig
+            />
+            <div class="flex  justify-center">
+                <audio controls class="mt-5" >
+                    <source src={auidioSource} type="audio/ogg">
+                    Tu navegador no soporta el elemento <code>audio</code>.
+                </audio>
+            </div>
+            
+
+        </div>
+    </section>
+</MainLayout>
+
