@@ -1,6 +1,7 @@
 ---
 import type { GetStaticPaths } from "astro";
 import type { PokemonList } from "../../interfaces/pokemon-list";
+import {Icon} from 'astro-icon/components';
 import MainLayout from "../../layouts/MainLayout.astro";
 import  PokemonCard from "../../components/pokemons/PokemonCard.astro";
 import Title from "@/components/shared/Title.astro";
@@ -38,7 +39,18 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
     <section class="pt-10 mx-10 flex flex-col justify-center items-center">
         <div class="justify-center items-center">
             <button onclick="history.back()" class="text-slate-50 text-2xl font-medium bg-gradient-to-r from-neutral-200/10 via-red-300/40 to-orange-600/30 rounded-md px-4 py-2">Regresar</button>
-            <Title>{name}</Title>
+
+            <div class="flex flex-row items-center">
+                
+                <Title>{name}</Title>
+
+                <button id="btn-favorite" class="mx-4 hover:scale-125 transition-all duration-700" data-name={name} data-id={id}>
+                    <Icon name="NoLike" size={50} />
+                    <Icon class="hidden" name="Like" size={50} />
+                </button>
+
+            </div>
+
             <PokemonCard 
             name={name} 
             url={url}
@@ -54,4 +66,22 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
 
         </div>
     </section>
+  
 </MainLayout>
+
+<script>
+  const handleFavorite = ()=>{
+    const btnFavorite =document.querySelector('#btn-favorite') as HTMLButtonElement;
+    if(!btnFavorite) return;
+
+    const name = btnFavorite.dataset.name;
+    const id = btnFavorite.dataset.id;
+
+    btnFavorite.addEventListener('click', () => {
+    console.log(name, id);
+    
+    })
+  }
+
+  document.addEventListener('astro:page-load',handleFavorite)
+</script>
