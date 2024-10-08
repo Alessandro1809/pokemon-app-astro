@@ -44,9 +44,9 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
                 
                 <Title>{name}</Title>
 
-                <button id="btn-favorite" class="mx-4 hover:scale-125 transition-all duration-700" data-name={name} data-id={id}>
-                    <Icon name="NoLike" size={50} />
-                    <Icon class="hidden" name="Like" size={50} />
+                <button id="btn-favorite" class="mx-4 hover:scale-105 transition-all duration-200" data-name={name} data-id={id}>
+                    <Icon data-outline name="NoLike" size={50} />
+                    <Icon data-full class="hidden" name="Like" size={50} />
                 </button>
 
             </div>
@@ -66,22 +66,76 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
 
         </div>
     </section>
-  
+   
 </MainLayout>
 
 <script>
-  const handleFavorite = ()=>{
-    const btnFavorite =document.querySelector('#btn-favorite') as HTMLButtonElement;
-    if(!btnFavorite) return;
+    interface IFavoritePokemon {
+        name: string;
+        id: number;
+    }
+    let favoritePokemons: IFavoritePokemon[] = JSON.parse(
+      localStorage.getItem('favorites') ?? '[]'
+    );
 
-    const name = btnFavorite.dataset.name;
-    const id = btnFavorite.dataset.id;
+   
 
-    btnFavorite.addEventListener('click', () => {
-    console.log(name, id);
-    
-    })
-  }
+    const handlePageLoad = () => {
+       
+        const btnFavorite = document.querySelector(
+            '#btn-favorite'
+        ) as HTMLButtonElement;
 
-  document.addEventListener('astro:page-load',handleFavorite)
-</script>
+        if (!btnFavorite) return;
+
+        const name = btnFavorite.dataset.name ?? '';
+        const id = btnFavorite.dataset.id ?? '';
+
+        const pokeBallOutline = document.querySelector(
+            '[data-outline]'
+        ) as HTMLElement;
+
+        const pokeBallFull = document.querySelector(
+            '[data-full]'
+        ) as HTMLElement;
+
+
+        const isFavorite = favoritePokemons.some((fav) => fav.name === name);
+        if (isFavorite) {
+            pokeBallOutline.classList.toggle('hidden');
+            pokeBallFull.classList.toggle('hidden');
+        }
+
+        btnFavorite.addEventListener('click', () => {
+            
+            pokeBallOutline.classList.toggle('hidden');
+            pokeBallFull.classList.toggle('hidden');
+
+            toggleFavorite();
+            
+        });
+        
+        const toggleFavorite = () => {
+        const isFavorite = favoritePokemons.some((fav) => fav.name === name);
+        if (isFavorite) {
+            //remover pokemon
+            favoritePokemons = favoritePokemons.filter(
+                (fav) => fav.name !== name 
+            )
+        }else{
+            //agregar pokemon
+            favoritePokemons.push({ 
+                id: +id,
+                name: name
+                
+            });
+        }
+
+        localStorage.setItem('favorites', JSON.stringify(favoritePokemons));
+    }
+
+    };
+  
+    document.addEventListener('astro:page-load', handlePageLoad);
+  </script>
+  

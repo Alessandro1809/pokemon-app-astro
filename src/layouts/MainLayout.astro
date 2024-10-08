@@ -1,6 +1,7 @@
 ---
 import { siteInfo } from '@/globals/consts';
 import NavBar from '@/components/shared/Navbar.astro';
+import { ViewTransitions } from 'astro:transitions';
 // import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -26,11 +27,7 @@ const { title=siteInfo.title, image, description=siteInfo.description } = Astro.
      <meta property="og:image" content={image}/>
 
     <title>{title}</title>
-    <style>
-      @view-transition {
-        navigation: auto; /* enabled! */
-      }
-    </style>
+    <ViewTransitions />
   </head>
   <body class="relative min-h-screen text-slate-100">
     <div class="absolute inset-0 z-[-2] h-full bg-[#fb1313] bg-[radial-gradient(#ffffff33_1px,#00091d_1px)] bg-[size:20px_20px]"></div>
