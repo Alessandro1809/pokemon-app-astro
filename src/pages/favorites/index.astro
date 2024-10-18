@@ -8,11 +8,17 @@ import MainLayout from "@/layouts/MainLayout.astro";
    // client:visible se ejecuta cuando el contenido ya ha sido renderizado y este visible al usuario
    // client:media se ejecuta condicionado por media querySelector
    // client:only se ejecuta al cargar el componente
+
+  const counterValue = 10;
 ---
 
 <MainLayout title="Favoritos">
    <Title>Listado de favoritos</Title>
 
-
+   <Counter 
+   transition:persist-props
+   transition:persist="counter"
+    client:visible 
+    initialvalue={counterValue} />
 
 </MainLayout>

@@ -1,8 +1,12 @@
-import { createSignal } from "solid-js";
+import { createSignal, type Component } from "solid-js";
 
-export const Counter = () => {
+interface Props{
+    initialvalue:number
+}
 
-    const [counter, setCounter] = createSignal(10);
+export const Counter:Component<Props> = (props) => {
+
+    const [counter, setCounter] = createSignal(props.initialvalue);
 
     const increment = () => {
         setCounter(counter() + 1);

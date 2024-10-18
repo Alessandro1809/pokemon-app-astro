@@ -3,11 +3,8 @@ import { Counter } from "@/components/Counter";
 import Title from "@/components/shared/Title.astro";
 import MainLayout from "@/layouts/MainLayout.astro";
 
-// client:load tiene prioridad alta en el renderizado de componentes es util para UI inmediatamente visible
-   // client:idle se hace despues de que todo el contenido haya sido cargado
-   // client:visible se ejecuta cuando el contenido ya ha sido renderizado y este visible al usuario
-   // client:media se ejecuta condicionado por media querySelector
-   // client:only se ejecuta al cargar el componente
+
+const counterValue = 10;
 ---
 
 <MainLayout title="Favoritos">
@@ -21,8 +18,10 @@ import MainLayout from "@/layouts/MainLayout.astro";
    }}>
 
    </div>
-   <Counter client:load />
-
+   <Counter transition:persist-props transition:persist="counter" client:visible initialvalue={counterValue} />
+   <video controls="" autoplay="" transition:persist>
+    <source src="https://ia804502.us.archive.org/33/items/GoldenGa1939_3/GoldenGa1939_3_512kb.mp4" type="video/mp4">
+  </video>
 
 
 </MainLayout>
