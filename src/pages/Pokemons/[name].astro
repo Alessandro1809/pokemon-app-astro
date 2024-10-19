@@ -70,11 +70,12 @@ const auidioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries
 </MainLayout>
 
 <script>
-    interface IFavoritePokemon {
-        name: string;
-        id: number;
-    }
-    let favoritePokemons: IFavoritePokemon[] = JSON.parse(
+    import type { FavoritePokemon } from "@/interfaces/favorite-pokemon";
+    // interface IFavoritePokemon {
+    //     name: string;
+    //     id: number;
+    // }
+    let favoritePokemons: FavoritePokemon[] = JSON.parse(
       localStorage.getItem('favorites') ?? '[]'
     );
 

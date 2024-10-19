@@ -1,7 +1,8 @@
-import { createSignal, type Component } from "solid-js";
+import { createSignal, type Component, type JSX } from "solid-js";
 
 interface Props{
-    initialvalue:number
+    initialvalue:number;
+    children?:JSX.Element;
 }
 
 export const Counter:Component<Props> = (props) => {
@@ -18,7 +19,8 @@ export const Counter:Component<Props> = (props) => {
     return (
         <>
         <div class="flex flex-col justify-center items-center">
-            <h1 class="text-4xl">Counter</h1>
+            
+            {props.children}
 
             <h3 class="text-2xl font-medium my-4">Value: {counter()}</h3>
 
